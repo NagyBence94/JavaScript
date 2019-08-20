@@ -1,0 +1,51 @@
+var canvas = document.getElementById('myCanvas')
+var ctx = canvas.getContext('2d');
+var ch = canvas.height;
+var cw = canvas.width;
+
+/*----------Function to the polygon----------*/
+
+function polygon(side, size_, x, y, deg_){
+  var numberOfSides = side,
+      size = size_,
+      xCenter = x,
+      yCenter = y,
+      deg = deg_;
+
+  ctx.translate(xCenter,yCenter); //Rotate
+  ctx.rotate(Math.PI/deg);
+  ctx.translate(-xCenter,-yCenter);
+
+  ctx.beginPath();
+  ctx.moveTo (xCenter +  size * Math.cos(0), yCenter +  size *  Math.sin(0));
+
+  for (var i = 1; i <= numberOfSides;i++) {
+    ctx.lineTo (xCenter + size * Math.cos(i * 2 * Math.PI / numberOfSides), yCenter + size * Math.sin(i * 2 * Math.PI / numberOfSides));
+}
+  ctx.strokeStyle = "orange";
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  return;
+}
+
+/*----------Center polygon----------*/
+
+polygon(6,50,cw/2,ch/2,0); //If you want, you can change the polygon number (first variable), and you can rotate it(last variable).
+
+/*----------Around center polygons----------*/
+
+for(var j = 1 ; j<=6; j++){
+
+  ctx.translate(cw/2,ch/2);
+  ctx.beginPath();
+  polygon(6,50,0,ch/2-50,0);
+  ctx.rotate(2*Math.PI/6);
+  ctx.translate(-cw/2,-ch/2);
+
+  if( j < 6){
+    ctx.stroke();
+  }else if( j == 6){
+    ctx.fillStyle= "orange";
+    ctx.fill();
+  }
+}
